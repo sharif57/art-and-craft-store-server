@@ -2,7 +2,7 @@
 
 const express = require('express');
 const cors = require('cors');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -42,11 +42,31 @@ async function run() {
             res.send(result)
         })
 
+        app.get('/myProduct/:email', async (req, res) => {
+            console.log(req.params.email);
+            const result = await artCollection.find({ email: req.params.email }).toArray()
+            res.send(result)
+        })
+
+        app.get('/items/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) }
+            const result = await artCollection.findOne(query);
+            res.send(result)
+        })
+
 
         app.post('/items', async (req, res) => {
             const newUsers = req.body;
             console.log(newUsers)
             const result = await artCollection.insertOne(newUsers)
+            res.send(result)
+        })
+
+        app.delete('/items/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) }
+            const result = await artCollection.deleteOne(query)
             res.send(result)
         })
 
