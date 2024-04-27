@@ -63,6 +63,31 @@ async function run() {
             res.send(result)
         })
 
+        app.put('/items/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: new ObjectId(id) }
+            const options = { upsert: true };
+            const newItems = req.body
+            const items = {
+                $set: {
+                    item_name: newItems.item_name,
+                    name: newItems.name,
+                    email: newItems.email,
+                    image: newItems.image,
+                    subcategory: newItems.subcategory,
+                    price: newItems.price,
+                    rating: newItems.rating,
+                    customization: newItems.customization,
+                    stockStatus: newItems.stockStatus,
+                    description: newItems.description,
+                    time: newItems.time
+                }
+            }
+
+            const result = await artCollection.updateOne(filter, items, options)
+            res.send(result)
+        })
+
         app.delete('/items/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: new ObjectId(id) }
