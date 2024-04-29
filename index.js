@@ -35,6 +35,7 @@ async function run() {
             res.send(result)
         })
 
+        
         app.get('/subcategory/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: new ObjectId(id) }
@@ -42,11 +43,7 @@ async function run() {
             res.send(result)
         })
 
-        // app.get('/subcraft', async (req, res) => {
-        //     const cursor = craftSubCollection.find()
-        //     const result = await cursor.toArray();
-        //     res.send(result)
-        // })
+  
 
         app.get('/items', async (req, res) => {
             const cursor = artCollection.find();
